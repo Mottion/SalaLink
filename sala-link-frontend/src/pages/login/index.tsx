@@ -1,24 +1,30 @@
 import { FormProvider, useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconEye } from "@tabler/icons-react";
+import { IconEye, IconEyeOff } from "@tabler/icons-react";
 import { Link } from "react-router";
 import SvgComponent from "@/components/logo";
 import { Controller } from "@/components/controller";
 import { Input } from "@/components/input";
+import { useState } from "react";
+  
+const schema = z.object({
+  email: z.email({ message: "Email inválido" }).min(2, { message: "O email deve ter no mínimo 2 caracteres" }),
+  password: z.string().min(6, { message: "A senha deve ter no mínimo 6 caracteres" }),
+});
 
 export const LoginIndex: React.FC = () => {
-
-  const schema = z.object({
-    email: z.email({ message: "Email inválido" }).min(2, { message: "O email deve ter no mínimo 2 caracteres" }),
-    password: z.string().min(6, { message: "A senha deve ter no mínimo 6 caracteres" }),
-  });
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(schema),
     mode: "onChange",
     reValidateMode: "onChange",
   });
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  }
 
   return (
     <div className="flex min-h-screen">
@@ -74,8 +80,10 @@ export const LoginIndex: React.FC = () => {
                   <Link to="/forgot-password" className="text-brand-primary-light font-normal hover:text-brand-primary-light/80 hover:underline text-sm">Esqueceu sua senha?</Link>
                 } 
                 render={({ field }) => (
-                  <Input {...field} placeholder="********" type="password" iconRight={
-                    <IconEye className="h-6 w-6 cursor-pointer" />
+                  <Input {...field} placeholder="********" type={passwordVisible ? "text" : "password"} iconRight={
+                    passwordVisible ? 
+                      <IconEye className="h-6 w-6 cursor-pointer" onClick={togglePasswordVisibility} /> :
+                      <IconEyeOff className="h-6 w-6 cursor-pointer" onClick={togglePasswordVisibility} />
                   } />
                 )}
               />
