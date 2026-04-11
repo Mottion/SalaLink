@@ -1,11 +1,11 @@
 import { FormProvider, useForm } from "react-hook-form";
-import SvgComponent from "../../components/logo";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../../components/input";
-import { Controller } from "../../components/controller";
 import { IconEye } from "@tabler/icons-react";
 import { Link } from "react-router";
+import SvgComponent from "@/components/logo";
+import { Controller } from "@/components/controller";
+import { Input } from "@/components/input";
 
 export const LoginIndex: React.FC = () => {
 

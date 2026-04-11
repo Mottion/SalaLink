@@ -1,5 +1,5 @@
+import { cn } from "@/services/utils/cn";
 import { useEffect, useRef, useState } from "react";
-import { cn } from "../../../services/utils/cn";
 
 const MARQUEE_SPEED_PX_PER_S = 30;
 const MARQUEE_PAUSE_MS = 1000;

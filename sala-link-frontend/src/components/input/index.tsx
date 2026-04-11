@@ -1,4 +1,4 @@
-import { cn } from "../../services/utils/cn";
+import { cn } from "@/services/utils/cn";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;

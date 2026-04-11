@@ -1,6 +1,6 @@
 import type { RouteObject } from "react-router";
 import { BaseRouterBuilder } from "./base-router-builder";
-import { LoginIndex } from "../../pages/login";
+import { LoginIndex } from "@/pages/login";
 
 class LoginRouterBuilder extends BaseRouterBuilder {
   constructor(subPath: string) {
