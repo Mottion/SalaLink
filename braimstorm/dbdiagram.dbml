@@ -1,0 +1,155 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table user {
+  id uuid PK
+  name varchar(255) [not null]
+  email varchar(255) [not null, unique]
+  password text [not null]
+  coworking_id uuid [ref: > coworking.id, not null]
+  avatar text
+  company_id uuid [ref: - company.id]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table coworking {
+  id uuid PK
+  name varchar(255)
+  short_name varchar(25) [note: "short_name is used to reference the company before the user logs into the system."]
+  cnpj varchar(15)
+  logo text 
+  color_theme_primary varchar(7)
+  color_theme_secondary varchar(7)
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table room {
+  id uuid PK
+  room_type RoomType
+  name varchar(255)
+  description text
+  capacity int
+  price_per_hour decimal(10,2)
+  is_active boolean
+  coworking_id uuid [ref: > coworking.id, not null]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Enum RoomType {
+  MEETING
+  PRIVATE_OFFICE
+  HOT_DESK
+  EVENT
+}
+
+Table room_image {
+  id uuid PK
+  room_id uuid [ref: > room.id, not null]
+}
+
+Table company {
+  id uuid PK
+  name varchar(255)
+  cnpj varchar(15)
+  owner_id uuid [ref: > user.id, not null]
+  coworking_id uuid [ref: > coworking.id, not null]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table booking {
+  id uuid PK
+  room_id uuid [ref: > room.id, not null]
+  company_id uuid [ref: > company.id, not null]
+  created_by uuid [ref: > user.id, not null]
+  start_at timestamp [not null]
+  end_at timestamp [not null]
+  status BookingStatus
+  price decimal(10,2)
+  created_at timestamp
+}
+
+Enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELED
+  FINISHED
+}
+
+Table invoice {
+  id uuid PK
+  company_id uuid [ref: > company.id]
+  coworking_id uuid [ref: > coworking.id]
+  total_amount decimal(10,2)
+  status InvoiceStatus
+  due_date date
+  created_at timestamp
+}
+
+Enum InvoiceStatus {
+  OPEN
+  PAID
+  OVERDUE
+  CANCELED
+}
+
+Table role {
+  id uuid PK
+  name varchar(100)
+  scope RoleScope
+}
+
+Enum RoleScope {
+  COWORKING
+  COMPANY
+}
+
+Table permission {
+  id uuid PK
+  code varchar(100) [unique]
+  description text
+}
+
+Table coworking_user_roles {
+  id uuid PK
+  user_id uuid [ref: > user.id]
+  coworking_id uuid [ref: > coworking.id]
+  role_id uuid [ref: > role.id]
+}
+
+Table role_permissions {
+  id uuid PK
+  role_id uuid [ref: > role.id]
+  permission_id uuid [ref: > permission.id]
+}
+
+Table company_user_roles {
+  id uuid PK
+  user_id uuid [ref: > user.id]
+  company_id uuid [ref: > company.id]
+  role_id uuid [ref: > role.id]
+}
+
+Table checkin {
+  id uuid PK
+  user_id uuid [ref: > user.id]
+  coworking_id uuid [ref: > coworking.id]
+  checkin_at timestamp
+  checkout_at timestamp
+}
+
+Table notification {
+  id uuid PK
+  user_id uuid [ref: > user.id]
+  title varchar(255)
+  message text
+  read_at timestamp
+  created_at timestamp
+}
