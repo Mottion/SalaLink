@@ -1,0 +1,6 @@
+@SalaLink.Application_HostAddress = http://localhost:5136
+
+GET {{SalaLink.Application_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
