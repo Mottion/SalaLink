@@ -7,3 +7,4 @@
   - Fluent Validation
   - Mediatr
   - Mapper Layer
+  - Pooling
