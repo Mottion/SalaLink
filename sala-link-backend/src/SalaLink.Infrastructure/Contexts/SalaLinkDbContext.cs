@@ -22,7 +22,7 @@ public class SalaLinkDbContext(DbContextOptions<SalaLinkDbContext> options) : Db
     var assembly = Domain.AssemblyReference.Assembly;
 
     var types = assembly.GetTypes()
-      .Where(t => t.IsSubclassOf(typeof(Domain.Entity.Common.GenericEntity)));
+      .Where(t => t.BaseType == typeof(Domain.Entity.Common.GenericEntity));
 
     foreach (var type in types)
       modelBuilder.Entity(type);

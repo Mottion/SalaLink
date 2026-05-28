@@ -12,7 +12,9 @@ builder.Services.AddDatabase();
 
 var app = builder.Build();
 
-app.RunMigrations();
+app
+.RunMigrations()
+.AddMiddlewares();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
